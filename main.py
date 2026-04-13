@@ -1,12 +1,12 @@
 import data
 import helpers
 class TestUrbanRoutes:
-  @classmethod
-  def setup_class(cls):
-      if is_url_reachable(data.URBAN_ROUTES_URL):
-          print("Connected to the Urban Routes server")
-      else:
-          print("Cannot connect to Urban Routes. Check the server is on and still running")
+    @classmethod
+    def setup_class(cls):
+        if is_url_reachable(data.URBAN_ROUTES_URL):
+            print("Connected to the Urban Routes server")
+        else:
+            print("Cannot connect to Urban Routes. Check the server is on and still running")
 class TestUrbanRoutes:
     def test_set_route(self):
         # Add in S8
