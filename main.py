@@ -24,6 +24,7 @@ class TestUrbanRoutes:
 
     def test_set_route(self):
         print("=== TEST STARTING: test_set_route ===")
+        self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.set_from_address(self.driver, data.ADDRESS_FROM)
         routes_page.set_to_address(self.driver, data.ADDRESS_TO)
@@ -32,6 +33,7 @@ class TestUrbanRoutes:
         assert routes_page.get_to(self.driver) == data.ADDRESS_TO
 
     def test_select_supportive_plan(self):
+        self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.set_from_address(self.driver, data.ADDRESS_FROM)  # Changed
         routes_page.set_to_address(self.driver, data.ADDRESS_TO)  # Changed
@@ -40,6 +42,7 @@ class TestUrbanRoutes:
         assert routes_page.is_supportive_plan_selected()
 
     def test_fill_phone_number(self):
+        self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.set_from_address(self.driver, data.ADDRESS_FROM)
         routes_page.set_to_address(self.driver, data.ADDRESS_TO)
@@ -68,6 +71,7 @@ class TestUrbanRoutes:
         assert routes_page.get_phone_number(self.driver) == data.PHONE_NUMBER
 
     def test_fill_card(self):
+        self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.set_from_address(self.driver, data.ADDRESS_FROM)
         routes_page.set_to_address(self.driver, data.ADDRESS_TO)
@@ -89,6 +93,7 @@ class TestUrbanRoutes:
         assert "Card" in payment_text
 
     def test_set_comment(self):
+        self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
 
         # Steps 1-4: Set addresses and navigate
@@ -105,6 +110,7 @@ class TestUrbanRoutes:
         assert stored_comment == data.MESSAGE_FOR_DRIVER
 
     def test_ordering_blanket_and_handkerchiefs(self):
+        self.driver.get(data.URBAN_ROUTES_URL)
         # Set up addresses
         routes_page = UrbanRoutesPage(self.driver)
         address_from = "East 2nd Street, 601"
@@ -131,6 +137,7 @@ class TestUrbanRoutes:
         print(f"Parent class: {parent_element.get_attribute('class')}")
 
     def test_order_2_ice_creams(self):
+        self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.set_from_address(self.driver, data.ADDRESS_FROM)
         routes_page.set_to_address(self.driver, data.ADDRESS_TO)
@@ -145,6 +152,7 @@ class TestUrbanRoutes:
         assert routes_page.get_ice_cream_counter(self.driver) == "2"
 
     def test_car_search_model_appears(self):
+        self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.set_from_address(self.driver, data.ADDRESS_FROM)
         routes_page.set_to_address(self.driver, data.ADDRESS_TO)
