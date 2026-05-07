@@ -23,7 +23,6 @@ class TestUrbanRoutes:
             print("Cannot connect to Urban Routes. Check the server is on and still running")
 
     def test_set_route(self):
-        print("=== TEST STARTING: test_set_route ===")
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.set_from_address(self.driver, data.ADDRESS_FROM)
@@ -88,6 +87,9 @@ class TestUrbanRoutes:
         routes_page.change_focus_from_code_field(self.driver)
         routes_page.click_link_button(self.driver)
 
+        #Close modal
+        routes_page.close_payment_method_modal(self.driver)
+
         # Assert card was added
         payment_text = routes_page.get_payment_method_text(self.driver)  # You need this
         assert "Card" in payment_text
@@ -113,10 +115,8 @@ class TestUrbanRoutes:
         self.driver.get(data.URBAN_ROUTES_URL)
         # Set up addresses
         routes_page = UrbanRoutesPage(self.driver)
-        address_from = "East 2nd Street, 601"
-        address_to = "1300 1st St"
-        routes_page.set_from(address_from)
-        routes_page.set_to(address_to)
+        routes_page.set_from_address(self.driver, data.ADDRESS_FROM)
+        routes_page.set_to_address(self.driver, data.ADDRESS_TO)
 
         # Call taxi and select supportive plan
         routes_page.click_call_a_taxi_button()
@@ -125,16 +125,7 @@ class TestUrbanRoutes:
         # Click the blanket and handkerchiefs slider
         routes_page.click_blanket_slider()
 
-        # Debug the element properties more thoroughly
-        blanket_element = self.driver.find_element(*UrbanRoutesPage.blanket_slider)
-        print(f"Tag name: {blanket_element.tag_name}")
-        print(f"Class attribute: {blanket_element.get_attribute('class')}")
-        print(f"All attributes: {blanket_element.get_property('outerHTML')}")
-
-        # Check parent element too
-        parent_element = blanket_element.find_element(By.XPATH, "..")
-        print(f"Parent tag: {parent_element.tag_name}")
-        print(f"Parent class: {parent_element.get_attribute('class')}")
+        assert routes_page.verify_handkerchief_checkbox_check()
 
     def test_order_2_ice_creams(self):
         self.driver.get(data.URBAN_ROUTES_URL)
@@ -143,12 +134,7 @@ class TestUrbanRoutes:
         routes_page.set_to_address(self.driver, data.ADDRESS_TO)
         routes_page.click_call_a_taxi_button()
         routes_page.click_supportive_plan()
-        # Add this after routes_page.click_supportive_plan()
-        import time
-        time.sleep(2)  # Wait for elements to load
-        print("Looking for ice cream section...")
-        for i in range(2):
-            routes_page.click_ice_cream_plus_button(self.driver)
+        routes_page.order_ice_creams(2)
         assert routes_page.get_ice_cream_counter(self.driver) == "2"
 
     def test_car_search_model_appears(self):

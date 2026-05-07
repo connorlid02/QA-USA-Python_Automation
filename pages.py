@@ -58,6 +58,9 @@ class UrbanRoutesPage:
     #Supportive Plan Card
     supportive_plan_card = (By.XPATH, "//div[contains(@class, 'tcard') and .//div[text()='Supportive']]")
 
+    #Handkerchiefs Checkbox
+    handkerchiefs_checkbox = (By.XPATH, "//input [@class='switch-input']")
+
     # Methods
     def set_from_address(self, driver, address):
         from_element = self.wait.until(expected_conditions.element_to_be_clickable(self.from_field_locator))
@@ -109,8 +112,8 @@ class UrbanRoutesPage:
         return blanket_element.get_property('checked')
 
     def click_ice_cream_plus_button(self, driver):
-        element = driver.find_element(*self.ice_cream_plus_button)
-        element.click()
+        ice_cream_plus = driver.find_element(By.CLASS_NAME, "counter-plus")
+        ice_cream_plus.click()
 
     def wait_for_car_search_modal(self, driver):
         wait = WebDriverWait(driver, 10)
@@ -140,6 +143,7 @@ class UrbanRoutesPage:
 
     def click_supportive_plan(self):
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.supportive_plan)).click()
+        time.sleep(2)
 
     def set_from(self, address):
         """Set 'from' address with double-clear verification"""
@@ -173,20 +177,15 @@ class UrbanRoutesPage:
         return driver.find_element(*self.ice_cream_counter).text
 
     def click_call_a_taxi_button(self):
-        # Add debug prints to see what's happening
-        print("About to click Call a taxi button...")
 
         # Check if addresses are set first
         from_value = self.driver.find_element(*self.from_field_locator).get_attribute("value")
         to_value = self.driver.find_element(*self.to_field_locator).get_attribute("value")
-        print(f"From address: '{from_value}'")
-        print(f"To address: '{to_value}'")
 
         # Add a small wait before clicking
         time.sleep(2)
 
         self.driver.find_element(*self.call_taxi_button).click()
-        print("Clicked Call a taxi button")
 
     def click_next_button(self, driver):
         driver.find_element(*self.next_button).click()
@@ -206,7 +205,6 @@ class UrbanRoutesPage:
     def is_supportive_plan_selected(self):
         supportive_plan_element = self.driver.find_element(*self.supportive_plan_card)
         class_attribute = supportive_plan_element.get_attribute("class")
-        print(f"Element classes: {class_attribute}")
         return "active" in class_attribute
 
     def set_sms_code(self, driver, sms_code):
@@ -217,3 +215,10 @@ class UrbanRoutesPage:
 
     def click_order_taxi(self, driver):
         driver.find_element(*self.order_taxi_button).click()
+
+    def verify_handkerchief_checkbox_check(self):
+        return self.driver.find_element(*self.handkerchiefs_checkbox).get_attribute("checked")
+
+    def order_ice_creams(self, quantity):
+        for i in range(quantity):
+            self.click_ice_cream_plus_button(self.driver)
