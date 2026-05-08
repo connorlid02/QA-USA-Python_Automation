@@ -38,7 +38,7 @@ class TestUrbanRoutes:
         routes_page.set_to_address(self.driver, data.ADDRESS_TO)  # Changed
         routes_page.click_call_a_taxi_button()
         routes_page.click_supportive_plan()
-        assert routes_page.is_supportive_plan_selected()
+        assert routes_page.is_supportive_plan_selected() == "Supportive"
 
     def test_fill_phone_number(self):
         self.driver.get(data.URBAN_ROUTES_URL)
@@ -91,7 +91,7 @@ class TestUrbanRoutes:
         routes_page.close_payment_method_modal(self.driver)
 
         # Assert card was added
-        payment_text = routes_page.get_payment_method_text(self.driver)  # You need this
+        payment_text = routes_page.get_payment_method_text(self.driver)
         assert "Card" in payment_text
 
     def test_set_comment(self):
